@@ -1,3 +1,4 @@
+"use client";
 import InputControl from "@/app/components/shared/forms/Input";
 import { Form, FormikProps } from "formik";
 import {
