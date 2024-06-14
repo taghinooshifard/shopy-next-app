@@ -1,8 +1,9 @@
 import { withFormik } from "formik";
-import innerLoginForm, { LoginInputValues } from "./InnerLoginForm";
+import innerLoginForm from "./InnerLoginForm";
 import * as yup from "yup";
 import callApi from "@/app/helpers/callApi";
 import ValidationError from "@/app/exceptions/validationErrors";
+import { LoginInputValues } from "@/app/models/LoginInputValues";
 const loginFormSchema = yup.object().shape({
   email: yup.string().required().email(),
   password: yup.string().required().min(8),

@@ -1,5 +1,6 @@
 "use client";
 import InputControl from "@/app/components/shared/forms/Input";
+import { RegisterInputValues } from "@/app/models/RegisterModels";
 import { Form, FormikProps } from "formik";
 import {
   AiOutlineLock,
@@ -8,11 +9,6 @@ import {
   AiOutlineUser,
 } from "react-icons/ai";
 
-export interface RegisterInputValues {
-  name: string;
-  email: string;
-  password: string;
-}
 export default function innerRegisterForm(
   params: FormikProps<RegisterInputValues>
 ) {
