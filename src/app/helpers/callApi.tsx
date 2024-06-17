@@ -18,16 +18,17 @@ export default function callApi() {
         }
       }
 
-      Promise.reject(error);
+      throw error;
     }
   );
   axiosinstance.interceptors.request.use(
     (config) => {
+      config.withCredentials = true;
       return config;
     },
 
     (error) => {
-      return Promise.reject(error);
+      throw error;
     }
   );
   return axiosinstance;

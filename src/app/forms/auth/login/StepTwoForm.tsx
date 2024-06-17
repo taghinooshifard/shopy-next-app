@@ -5,6 +5,7 @@ import ValidationError from "@/app/exceptions/validationErrors";
 import { LoginStepTwo } from "@/app/models/LoginStepTow";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import innerStepTwoForm from "./InnerStepTwoForm";
+import { storeLoginCookie } from "@/app/helpers/auth";
 const stepTwoFormSchema = yup.object().shape({
   code: yup
     .string()
@@ -28,9 +29,9 @@ const StepTwoForm = withFormik<LoginStepTowDefault, LoginStepTwo>({
     try {
       const res = await callApi().post("auth/login/verify-phone", values);
       if (res?.status == 200) {
-        console.log(res);
+        await storeLoginCookie(res?.data?.user?.token);
         await props.clearToken();
-        await props.router.push("/");
+        await props.router.push("/panel");
       }
     } catch (error: any) {
       if (error instanceof ValidationError) {
