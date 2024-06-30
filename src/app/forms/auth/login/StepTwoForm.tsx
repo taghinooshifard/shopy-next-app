@@ -30,7 +30,7 @@ const StepTwoForm = withFormik<LoginStepTowDefault, LoginStepTwo>({
       const res = await callApi().post("auth/login/verify-phone", values);
       if (res?.status == 200) {
         await storeLoginCookie(res?.data?.user?.token);
-        await props.clearToken();
+        // await props.clearToken();
         await props.router.push("/panel");
       }
     } catch (error: any) {

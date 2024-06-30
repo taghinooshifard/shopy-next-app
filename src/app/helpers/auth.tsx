@@ -1,4 +1,5 @@
 "use client";
+import { useAppDispatch } from "../hooks";
 // import Cookies from "universal-cookie";
 import { MAX_AGE, TOKEN_NAME } from "./constants";
 const storeLoginCookie = async (token: string) => {
@@ -8,6 +9,7 @@ const storeLoginCookie = async (token: string) => {
   //   maxAge: MAX_AGE,
   //   sameSite: "lax",
   // });
+
   console.log("token:", token);
 
   try {
@@ -18,6 +20,7 @@ const storeLoginCookie = async (token: string) => {
       },
       body: JSON.stringify({ token }),
     });
+
     console.log(res);
   } catch (error) {
     console.log("Error", error);

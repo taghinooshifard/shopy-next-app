@@ -1,10 +1,10 @@
 "use client";
-import { Inter } from "next/font/google";
+import { Inter, Vazirmatn } from "next/font/google";
 import "./globals.css";
 import { Provider } from "react-redux";
 import { store } from "./store";
 
-const inter = Inter({ subsets: ["latin"] });
+const vazirmatn = Vazirmatn({ subsets: ["arabic"] });
 
 export default function RootLayout({
   children,
@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={vazirmatn.className}>
         <Provider store={store}>{children}</Provider>
       </body>
     </html>
