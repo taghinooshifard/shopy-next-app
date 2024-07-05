@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { KeyedMutator } from "swr";
 import EditProductForm from "./EditProductForm";
+import { useSelector } from "react-redux";
+import { selectUser } from "@/app/store/auth";
 
 interface Props {
   product: Product;
@@ -18,6 +20,7 @@ interface Props {
   page: number;
 }
 export default function ProductListItem({ product, mutate, page }: Props) {
+  const user = useSelector(selectUser);
   const [deleteShow, setDeleteShow] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -75,25 +78,29 @@ export default function ProductListItem({ product, mutate, page }: Props) {
       <th scope="col" className="px-6 py-3">
         {product.price}
       </th>
-      <th scope="col" className="px-6 py-3">
-        <Link
-          href={`/admin/products/${product.id}/edit`}
-          as={`/admin/products/?page=${page}&edit-${product.id}`}
-          className="rounded-md px-5 py-2 bg-blue-700 text-white "
-        >
-          ویرایش
-        </Link>
-      </th>
-      <th scope="col" className="px-6 py-3">
-        <button
-          onClick={() => {
-            setDeleteShow(true);
-          }}
-          className="rounded-md px-5 py-2 bg-red-700 text-white"
-        >
-          حذف
-        </button>
-      </th>
+      {user.canAccess("edit_product") && (
+        <th scope="col" className="px-6 py-3">
+          <Link
+            href={`/admin/products/${product.id}/edit`}
+            as={`/admin/products/?page=${page}&edit-${product.id}`}
+            className="rounded-md px-5 py-2 bg-blue-700 text-white "
+          >
+            ویرایش
+          </Link>
+        </th>
+      )}
+      {user.canAccess("delete_product") && (
+        <th scope="col" className="px-6 py-3">
+          <button
+            onClick={() => {
+              setDeleteShow(true);
+            }}
+            className="rounded-md px-5 py-2 bg-red-700 text-white"
+          >
+            حذف
+          </button>
+        </th>
+      )}
     </tr>
   );
 }

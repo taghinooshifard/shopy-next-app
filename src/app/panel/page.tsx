@@ -25,7 +25,7 @@ export default function UserPanel() {
   return (
     <div>
       <h1>User Panel</h1>
-      <div>{user?.name}</div>
+      <div>{user?.user?.name}</div>
       <div className="flex gap-2 mx-3">
         <button
           className="bg-emerald-400 shadow-lg rounded-md px-5 py-2 hover:bg-indigo-500"

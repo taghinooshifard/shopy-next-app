@@ -22,7 +22,7 @@ export interface ProducDefaultValues {
     total_page: any;
   }>;
   product: Product;
-  page: number;
+  page?: number;
 }
 const EditProductForm = withFormik<ProducDefaultValues, ProductValues>({
   mapPropsToValues: (props) => {
@@ -44,7 +44,9 @@ const EditProductForm = withFormik<ProducDefaultValues, ProductValues>({
       });
       await toast.success("محصول ویرایش شد");
       if (props.mutate) await props.mutate();
-      props.router.push(`/admin/products?page=${props.page}`);
+      props.page
+        ? props.router.push(`/admin/products?page=${props.page}`)
+        : props.router.push(`/admin/products`);
     } catch (error: any) {
       if (error instanceof ValidationError) {
         Object.entries(error.messages).forEach(([key, value]) =>

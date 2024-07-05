@@ -11,6 +11,9 @@ import useSWR from "swr";
 import ReactCustomePaginate from "@/app/components/shared/reactCustomPaginate";
 import EmptyList from "@/app/components/shared/emptyList";
 import ProductListItem from "@/app/forms/admin/product/productListItem";
+import { useSelector } from "react-redux";
+import { selectUser } from "@/app/store/auth";
+import { useAppSelector } from "@/app/hooks";
 
 export default function AdminProduct() {
   const searchParams = useSearchParams();
@@ -29,6 +32,8 @@ export default function AdminProduct() {
   useEffect(() => {
     setPage(parseInt(queryPage ?? "1"));
   }, [queryPage]);
+  const user = useAppSelector(selectUser);
+
   return isLoading ? (
     <LoadingSpinner message="درحال بارگذاری اطلاعات..." />
   ) : (
@@ -40,13 +45,15 @@ export default function AdminProduct() {
           <p>در این صفحه لیست محصولات نمایش داده میشود</p>
         </div>
         {/* Buttos Show Modal */}
-        <Link
-          className="text-gray-600 hover:text-white bg-blue-300 hover:bg-blue-600 px-4 py-2 rounded-md"
-          as="/admin/products?create"
-          href={"/admin/products/create"}
-        >
-          اضافه کردن محصول
-        </Link>
+        {user.canAccess("add_new_product") && (
+          <Link
+            className="text-gray-600 hover:text-white bg-blue-300 hover:bg-blue-600 px-4 py-2 rounded-md"
+            as="/admin/products?create"
+            href={"/admin/products/create"}
+          >
+            اضافه کردن محصول
+          </Link>
+        )}
       </div>
       {/* Modal Create Product Form */}
       {isOpen() && (
@@ -76,12 +83,16 @@ export default function AdminProduct() {
                 <th scope="col" className="px-6 py-3">
                   قیمت
                 </th>
-                <th scope="col" className="px-6 py-3">
-                  ویرایش
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  حذف
-                </th>
+                {user.canAccess("edit_product") && (
+                  <th scope="col" className="px-6 py-3">
+                    ویرایش
+                  </th>
+                )}
+                {user.canAccess("delete_product") && (
+                  <th scope="col" className="px-6 py-3">
+                    حذف
+                  </th>
+                )}
               </tr>
             </thead>
             <tbody>
